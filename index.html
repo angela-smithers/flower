@@ -1,89 +1,134 @@
 <!DOCTYPE html>
-
 <head>
-  <meta name="description" content="space for creating test tree file" />
   <meta charset="utf-8">
   <title>Flower</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="author" content="">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-  <!-- script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script -->
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <link href="//fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  
+  <style>
+    .link {
+      fill: none;
+      stroke: #4fb9b5;
+    }
+    .glow {
 
-<style>
+      /* This trick adds a heavy white shadow around the text. */
+      text-shadow:
+       -1px -1px 3px white,
+       -1px  1px 3px white,
+        1px -1px 3px white,
+        1px  1px 3px white;
 
-.node circle {
-  fill: #999;
-}
-
-.node text {
-  font: 10px sans-serif;
-}
-
-.node--internal circle {
-  fill: #555;
-}
-
-.node--internal text {
-  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
-}
-
-.link {
-  fill: none;
-  stroke: #555;
-  stroke-opacity: 0.4;
-  stroke-width: 1.5px;
-}
-
-</style>
-<!-- svg width="960" height="2000"></svg -->
+    }
+    text {
+      font-family: "Open Sans", sans-serif;
+      pointer-events: none;
+    }
+  </style>
 </head>
-  
+
 <body>
-  
-<script>
-var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height"),
-    g = svg.append("g").attr("transform", "translate(40,0)");
+  <script>
+    var width = 960,
+        height = 950,
+        svg = d3.select("body").append("svg")
+          .attr("width", width)
+          .attr("height", height),
+        g = svg.append("g"),
+        cluster = d3.cluster()
+          .size([2 * Math.PI, width / 2 - 150])
+        fontSize = d3.scaleSqrt()
+          .range([30, 7]);
 
-var tree = d3.tree()
-    .size([height, width - 160]);
+    svg.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .call(d3.zoom()
+          .scaleExtent([1 / 2, 4])
+          .on("zoom", zoomed));
 
-var stratify = d3.stratify()
-    .parentId(function(d) { return d.id.substring(0, d.id.lastIndexOf(".")); });
+    function zoomed() {
+      g.attr("transform", d3.event.transform);
+    }
+    
+    d3.json("JSON/namu.json", function (data){
+      var hierarchy = d3.hierarchy(data);
+      cluster(hierarchy);
+      var descendants = hierarchy.descendants();
+      
+      fontSize.domain(d3.extent(descendants, function (d){ return d.depth; }))
+      
+      var link = g.selectAll(".link")
+          .data(descendants.slice(1))
+        .enter().append("path")
+          .attr("class", "link")
+          .attr("d", function(d) {
+            if(d.parent === descendants[0]){
+              return "M" + project(d.x, d.y)
+                + " " + project(d.parent.x, d.parent.y);
+            } else {
+              return "M" + project(d.x, d.y)
+                + "C" + project(d.x, (d.y + d.parent.y) / 2)
+                + " " + project(d.parent.x, (d.y + d.parent.y) / 2)
+                + " " + project(d.parent.x, d.parent.y);
+            }
+          });
+      
+      var node = g.selectAll(".node")
+          .data(descendants)
+        .enter().append("g")
+          .attr("transform", function(d) {
+            return "translate(" + project(d.x, d.y) + ")";
+          });
 
-d3.csv("flare.csv", function(error, data) {
-  if (error) throw error;
-
-  var root = stratify(data)
-      .sort(function(a, b) { return (a.height - b.height) || a.id.localeCompare(b.id); });
-
-  var link = g.selectAll(".link")
-    .data(tree(root).links())
-    .enter().append("path")
-      .attr("class", "link")
-      .attr("d", d3.linkHorizontal()
-          .x(function(d) { return d.y; })
-          .y(function(d) { return d.x; }));
-
-  var node = g.selectAll(".node")
-    .data(root.descendants())
-    .enter().append("g")
-      .attr("class", function(d) { return "node" + (d.children ? " node--internal" : " node--leaf"); })
-      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-
-  node.append("circle")
-      .attr("r", 2.5);
-
-  node.append("text")
-      .attr("dy", 3)
-      .attr("x", function(d) { return d.children ? -8 : 8; })
-      .style("text-anchor", function(d) { return d.children ? "end" : "start"; })
-      .text(function(d) { return d.id.substring(d.id.lastIndexOf(".") + 1); });
-});
-
-</script>
-  
+      node.append("text")
+        .text(function (d){
+          return d.data.data.id;
+        })
+        .attr("font-size", function (d){
+          return fontSize(d.depth) + "pt";
+        })
+        .attr("transform", function(d) {
+          var theta = -d.x / Math.PI * 180 + 90;
+          if(d.x > Math.PI){
+            theta += 180;
+          }
+          if(d.depth !== 3 && Math.abs(theta) < 30){
+            theta = 0;
+          }
+          if(d.depth > 1){
+            return "rotate(" + theta + ")";
+          } else {
+            return "";
+          }
+        })
+        .attr("text-anchor", function (d){
+          if(d.depth === 3){
+            return (d.x > Math.PI) ? "end" : "start";
+          } else {
+            return "middle";
+          }
+        })
+        .attr("dx", function (d){
+          if(d.depth === 3){
+            return (d.x > Math.PI) ? "-2px" : "2px";
+          } else {
+            return "0px";
+          }
+        })
+        .classed("glow", function (d){
+          return d.depth !== 3;
+        })
+        .attr("alignment-baseline", "central");
+    });
+    
+    function project(theta, r){
+      return [
+        width / 2 + r * Math.sin(theta),
+        height / 2 + r * Math.cos(theta) + 4
+      ]
+    }
+  </script>
 </body>
