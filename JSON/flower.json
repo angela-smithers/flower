@@ -572,12 +572,12 @@
     },
     {
       "data": {
-        "id": "Emmaline Richardson"
+        "id": "Savannah\rRichardson"
       },
       "children": [
         {
           "data": {
-            "id": "Northern Africa"
+            "id": "Wade Niblett"
           },
           "children": [
             {
@@ -619,7 +619,7 @@
         },
         {
           "data": {
-            "id": "Middle Africa"
+            "id": "Mittie Niblett"
           },
           "children": [
             {
@@ -671,7 +671,7 @@
         },
         {
           "data": {
-            "id": "Western Africa"
+            "id": "Estella Niblett"
           },
           "children": [
             {
@@ -763,7 +763,7 @@
         },
         {
           "data": {
-            "id": "Southern Africa"
+            "id": "Dora Niblett"
           },
           "children": [
             {
@@ -776,26 +776,39 @@
                 "id": "Lesotho"
               }
             },
-            {
-              "data": {
-                "id": "Namibia"
-              }
-            },
-            {
-              "data": {
-                "id": "South Africa"
-              }
-            },
-            {
-              "data": {
-                "id": "Swaziland"
-              }
-            }
-          ]
-        },
         {
           "data": {
-            "id": "Eastern Africa"
+            "id": "Ira Niblett"
+          },
+          "children": [
+            {
+              "data": {
+                "id": "Botswana"
+              }
+            },
+            {
+              "data": {
+                "id": "Lesotho"
+              }
+            },
+        {
+          "data": {
+            "id": "Roberta Niblett"
+          },
+          "children": [
+            {
+              "data": {
+                "id": "Botswana"
+              }
+            },
+            {
+              "data": {
+                "id": "Lesotho"
+              }
+            },
+        {
+          "data": {
+            "id": "Catherine Niblett"
           },
           "children": [
             {
@@ -805,92 +818,7 @@
             },
             {
               "data": {
-                "id": "Comoros"
-              }
-            },
-            {
-              "data": {
-                "id": "Djibouti"
-              }
-            },
-            {
-              "data": {
-                "id": "Eritrea"
-              }
-            },
-            {
-              "data": {
-                "id": "Ethiopia"
-              }
-            },
-            {
-              "data": {
                 "id": "Kenya"
-              }
-            },
-            {
-              "data": {
-                "id": "Madagascar"
-              }
-            },
-            {
-              "data": {
-                "id": "Malawi"
-              }
-            },
-            {
-              "data": {
-                "id": "Mauritius"
-              }
-            },
-            {
-              "data": {
-                "id": "Mayotte"
-              }
-            },
-            {
-              "data": {
-                "id": "Mozambique"
-              }
-            },
-            {
-              "data": {
-                "id": "Réunion"
-              }
-            },
-            {
-              "data": {
-                "id": "Rwanda"
-              }
-            },
-            {
-              "data": {
-                "id": "Seychelles"
-              }
-            },
-            {
-              "data": {
-                "id": "Somalia"
-              }
-            },
-            {
-              "data": {
-                "id": "South Sudan"
-              }
-            },
-            {
-              "data": {
-                "id": "Uganda"
-              }
-            },
-            {
-              "data": {
-                "id": "United Republic of Tanzania"
-              }
-            },
-            {
-              "data": {
-                "id": "Zambia"
               }
             },
             {
