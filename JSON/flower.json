@@ -910,14 +910,7 @@
         {
           "data": {
             "id": "no children"
-          },
-          "children": [
-            {
-              "data": {
-                "id": " "
-              }
-            }
-          ]
+          }
         }
       ]
     },
@@ -929,14 +922,7 @@
         {
           "data": {
             "id": "no children"
-          },
-          "children": [
-            {
-              "data": {
-                "id": " "
-              }
-            }
-          ]
+          }
         }
       ]
     },
@@ -1216,14 +1202,7 @@
         {
           "data": {
             "id": "no children"
-          },
-          "children": [
-            {
-              "data": {
-                "id": " "
-              }
-            }
-          ]
+          }
         }
       ]
     }
