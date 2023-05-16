@@ -52,7 +52,7 @@
       g.attr("transform", d3.event.transform);
     }
     
-    d3.json("namu.json", function (data){
+    d3.json("JSON/namu.json", function (data){
       var hierarchy = d3.hierarchy(data);
       cluster(hierarchy);
       var descendants = hierarchy.descendants();
